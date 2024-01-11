@@ -1,3 +1,10 @@
+I am having an issue with a InputText inside of a Table where there is a `pSelectableRow` set. I have a column with a textbox in it and when the `pSelectableRow` attribute is set the textbox does not allow spaces to be typed. If I remove `pSelectableRow` attribute, then I can add spaces to the value being typed. I need that attibute to make the application work as needed.
+
+Here is the code to repro this issue:
+
+Template:
+
+```
 <p-table [columns]="cols" [value]="interestingSlides" dataKey="slideId">
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -38,3 +45,41 @@
     </td>
   </tr>
 </table>
+```
+
+Backing code:
+
+```
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule,
+    FormsModule,
+    InputTextModule,
+    TableModule,
+    RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'png-issue';
+  interestingSlides: RowData[] = [{ otherReason: undefined }];
+  cols: any[] = [
+    { field: 'otherReason', header: 'Other Reason', width: '0 0 20%' }
+  ];
+}
+
+interface RowData {
+  otherReason?: string;
+}
+```
+
+Can someone explain why this is behaving the way it is?
+
